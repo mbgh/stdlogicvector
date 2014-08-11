@@ -1,0 +1,25 @@
+/*! \mainpage StdLogicVector
+ *
+ * A C++ analogue to the VHDL @c std_logic_vector data type.
+ *
+ * \section secIntro Introduction
+ *
+ * The @c std_logic_vector data type in VHDL offers arbitrary precision arithmetic
+ * for a couple of usefull operations. Especially when designing hardware
+ * architectures, where large number arithmetic (64bit and way beyond) is
+ * required (like it is in cryptographic applications), single or double
+ * precision software models usually suck as the per default provided precision is
+ * usually not enough. Although there exist several arbitrary precision
+ * libraries out there, most of them are too user-unfriendly from a hardware
+ * designer's perspective.
+ *
+ * Therefore, this class provides an attempt to simplify a hardware designer's
+ * life by offering a data type, which can be seen as an analogue to the VHDL
+ * @c std_logic_vector data type. All of the provided arithmetic is of arbitrary
+ * precision in order to allow logic operations on a bit level (AND, OR, XOR,
+ * etc.) as well as other functions, usefull during the development of sotware
+ * models for hardware architectures. Internally, the class uses the GMP
+ * library in order to realize the arbitrary precision arithmetic, which is why
+ * it can be seen as a "hardware-designer-friendly wrapper around the GMP".
+ *
+ */
