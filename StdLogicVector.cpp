@@ -121,6 +121,7 @@ StdLogicVector::StdLogicVector(string _value, int _base, unsigned int _length) {
  */
 StdLogicVector::StdLogicVector(unsigned char *_value, int _bytes,
      unsigned int _length) {
+	mpz_init(value_);
   mpz_import(value_, _bytes, 1, sizeof(_value[0]), 1, 0, _value);
   length_ = _length;
 }
@@ -131,6 +132,17 @@ StdLogicVector::StdLogicVector(unsigned char *_value, int _bytes,
 StdLogicVector::~StdLogicVector() {
 }
 
+/**
+ * @brief Copy-constructor. Creates a deep copy of both the @a length_ and the
+ *   @a value_ of the StdLogicVector.
+ * @param _other The StdLogicVector to be copied.
+ */
+StdLogicVector::StdLogicVector (const StdLogicVector & _other) {
+	length_ = _other.getLength();
+	mpz_init_set(value_, _other.getValue());
+}
+
+
 
 // ****************************************************************************
 // Getter/Setter functions
@@ -140,7 +152,7 @@ StdLogicVector::~StdLogicVector() {
  *   internally, i.e., as a GMP-specific @c mpz_t data type.
  * @return The value of the StdLogicVector as a GMP-specific data type.
  */
-mpz_t const & StdLogicVector::getValue() const {
+const mpz_t & StdLogicVector::getValue() const {
   return value_;
 }
 
@@ -154,7 +166,7 @@ int StdLogicVector::getLength() const {
 
 
 // **************************************************************************
-// Comparison operators
+// Operator Overloadings
 // **************************************************************************
 /**
  * @brief Equality operator. Returns true of both the value and the length of
@@ -184,6 +196,16 @@ bool StdLogicVector::operator!=(const StdLogicVector & _input) const {
 	return !(*this == _input);
 }
 
+/**
+ * @brief Provide a nice stream output showing the value of the StdLogicVector
+ *   in hexadecimal representation and also its length.
+ */
+ostream & operator<<(ostream & _os, const StdLogicVector & _stdLogicVec)
+{
+    _os << _stdLogicVec.ToString(16, true) << "(" << _stdLogicVec.getLength() << "bits)";
+    return _os;
+}
+
 
 // ****************************************************************************
 // Public Methods
@@ -197,7 +219,7 @@ bool StdLogicVector::operator!=(const StdLogicVector & _input) const {
  * @retval 0 If bit is zero.
  * @retval 1 If bit is one.
  */
-int StdLogicVector::TestBit(int _index) {
+int StdLogicVector::TestBit(int _index) const {
   return mpz_tstbit(value_, _index);
 }
 
@@ -212,6 +234,19 @@ int StdLogicVector::TestBit(int _index) {
  *   than what fits into an unsigned long long (usually 64bits).
  */
 unsigned long long StdLogicVector::ToULL() {
+  return static_cast<const StdLogicVector &>( *this ).ToULL();
+}
+
+/**
+ * @brief Converts the value of the current StdLogicVector into an unsigned
+ *        long long and returns it.
+ *
+ * @return The value of the StdLogicVector as an unsigned long long.
+ *
+ * @todo Throw an exception when the length of the StdLogicVector is larger
+ *   than what fits into an unsigned long long (usually 64bits).
+ */
+unsigned long long StdLogicVector::ToULL() const {
   unsigned int lowerWord, higherWord;
   mpz_t tmp;
 
@@ -250,31 +285,46 @@ string StdLogicVector::ToString(bool _pad){
 
 /**
  * @brief Returns a string representing the value of the StdLogicVector as a
+ *   number in the provided base representation.
+ * @param _base The base in which the number should be represented.
+ * @return The value of the StdLogicVector in the provided base representation.
+ */
+string StdLogicVector::ToString(int _base) {
+	return this->ToString(_base, false);
+}
+
+/**
+ * @brief Returns a string representing the value of the StdLogicVector as a
+ *   number in the provided base representation.
+ * @param _base The base in which the number should be represented.
+ * @return The value of the StdLogicVector in the provided base representation.
+ */
+string StdLogicVector::ToString(int _base) const{
+	return this->ToString(_base, false);
+}
+
+/**
+ * @brief Returns a string representing the value of the StdLogicVector as a
  *   number in the provided base representation and with leading zeros (if
  *   desired).
  * @param _base The base in which the number should be represented.
  * @param _pad Determines whether to pad the returned value using leading zeros
  *   (as many as determined by the length of the StdLogicVector).
- * @return
+ * @return The value of the StdLogicVector in the provided base representation.
  */
 string StdLogicVector::ToString(int _base, bool _pad) {
-
-  double baseLength;
-  string strValue;
-  string strTmp = mpz_get_str(NULL, _base, value_);
-
-  // Determine size of the value (i.e., length of string) for the given base.
-  baseLength = length_ / (log(_base)/log(2));
-
-  // Apply padding if required.
-  if (strTmp.length() < baseLength && _pad) {
-    strValue.append(baseLength-strTmp.length(), '0');
-  }
-  strValue.append(strTmp);
-
-  return strValue;
+	return  static_cast<const StdLogicVector &>( *this ).ToString(_base, _pad);
 }
 
+/**
+ * @brief Returns a string representing the value of the StdLogicVector as a
+ *   number in the provided base representation and with leading zeros (if
+ *   desired).
+ * @param _base The base in which the number should be represented.
+ * @param _pad Determines whether to pad the returned value using leading zeros
+ *   (as many as determined by the length of the StdLogicVector).
+ * @return The value of the StdLogicVector in the provided base representation.
+ */
 string StdLogicVector::ToString(int _base, bool _pad) const {
 
   double baseLength;
@@ -282,7 +332,7 @@ string StdLogicVector::ToString(int _base, bool _pad) const {
   string strTmp = mpz_get_str(NULL, _base, value_);
 
   // Determine size of the value (i.e., length of string) for the given base.
-  baseLength = length_ / (log(_base)/log(2));
+  baseLength = ceil(length_ / (log(_base)/log(2)));
 
   // Apply padding if required.
   if (strTmp.length() < baseLength && _pad) {
@@ -293,29 +343,32 @@ string StdLogicVector::ToString(int _base, bool _pad) const {
   return strValue;
 }
 
-//string StdLogicVector::ToString(int _base, bool _pad) {
-////	return const_cast<char &>( static_cast<const C &>( *this ).get() );
-//	return const_cast<string>(static_cast<const StdLogicVector &>(*this).ToString(_base, _pad));
-//}
-
 /**
  * @brief Returns a pointer to an array of bytes containing the value of the
  *   StdLogicVector.
  * @return Pointer to the byte-array containing the StdLogicVector value.
  */
-unsigned char * StdLogicVector::ToByteArray() {
+//unsigned char * StdLogicVector::ToByteArray() {
+//void StdLogicVector::ToByteArray(unsigned char & _byteArray) {
+//
+////  return const_cast<unsigned char *>(static_cast<const StdLogicVector &>( *this ).ToByteArray());
+//}
+
+/**
+ * @brief Fills the provided byte array with the respective bytes of the value
+ *   of the StdLogicVector.
+ * @param _byteArray The byte array to be filled with the byte values.
+ */
+void StdLogicVector::ToByteArray(unsigned char _byteArray[]) const {
 
   string hexString = this->ToString(16, true);
   int length       = hexString.length();
   unsigned int n;
-  unsigned char * byteArray = new unsigned char[length];
 
-  for (int i = 0; i < length; ++i) {
+  for (int i = 0; i < length; i=i+2) {
     sscanf(hexString.c_str() + i, "%2X", &n);
-    byteArray[i/2] = (char)n;
+    _byteArray[i/2] = (char)n;
   }
-
-  return byteArray;
 }
 
 /**
@@ -345,7 +398,7 @@ StdLogicVector& StdLogicVector::ShiftRight(int _bits) {
  * @param _operand The StdLogicVector to perform the AND operation with.
  * @return The result of the bitwise AND operation.
  */
-StdLogicVector & StdLogicVector::And(StdLogicVector const & _operand) {
+StdLogicVector & StdLogicVector::And(const StdLogicVector & _operand) {
   mpz_and(value_, value_, _operand.getValue());
   return *this;
 }
@@ -355,7 +408,7 @@ StdLogicVector & StdLogicVector::And(StdLogicVector const & _operand) {
  * @param _operand The StdLogicVector to perform the OR operation with.
  * @return The result of the bitwise OR operation.
  */
-StdLogicVector & StdLogicVector::Or(StdLogicVector const & _operand) {
+StdLogicVector & StdLogicVector::Or(const StdLogicVector & _operand) {
   mpz_ior(value_, value_, _operand.getValue());
   return *this;
 }
@@ -365,18 +418,45 @@ StdLogicVector & StdLogicVector::Or(StdLogicVector const & _operand) {
  * @param _operand The StdLogicVector to perform the XOR operation with.
  * @return The result of the bitwise XOR operation.
  */
-StdLogicVector & StdLogicVector::Xor(StdLogicVector const & _operand) {
+StdLogicVector & StdLogicVector::Xor(const StdLogicVector & _operand) {
   mpz_xor(value_, value_, _operand.getValue());
   return *this;
 }
 
 /**
- * @brief Addition of another StdLogicVector.
+ * @brief Addition of another StdLogicVector. Per default, the resulting
+ *   StdLogicVector will have the same @a length_ as the original one. If this
+ *   is not the desired behavior, call the overloaded function and do not
+ *   truncate the carry.
  * @param _operand The StdLogicVector to perform the addition with.
  * @return The sum of the two StdLogicVectors.
  */
-StdLogicVector & StdLogicVector::Add(StdLogicVector _operand) {
+StdLogicVector & StdLogicVector::Add(const StdLogicVector & _operand) {
+	return this->Add(_operand, true);
+}
+
+/**
+ * @brief Addition of another StdLogicVector.
+ * @param _operand The StdLogicVector to perform the addition with.
+ * @param _truncateCarry Determines whether to truncate the carry of the sum.
+ *   If @c true, the sum will have the length as the original StdLogicVector.
+ *   If @c false, the sum will have the length of the original StdLogicVector
+ *   plus one bit (length_ + 1).
+ * @return The sum of the two StdLogicVectors.
+ */
+StdLogicVector & StdLogicVector::Add(const StdLogicVector & _operand,
+		bool _truncateCarry) {
   mpz_add(value_, value_, _operand.getValue());
+  if ( _truncateCarry ){
+  	// Length should be kept the same as the original StdLogicVector. Thus,
+  	// truncate a potential carry.
+  	this->And(StdLogicVector(Ones(length_), 2, length_));
+  } else {
+  	// Resulting StdLogicVector (sum) may have increased by one bit. Thus,
+  	// also increase its length.
+  	length_ = length_ + 1;
+  }
+
   return *this;
 }
 
@@ -389,7 +469,8 @@ StdLogicVector & StdLogicVector::Add(StdLogicVector _operand) {
 StdLogicVector & StdLogicVector::TruncateAfter(int _width) {
 	StdLogicVector tmp(Ones(_width), 2, _width);
 	length_ = _width;
-	return this->And(tmp);
+	this->And(tmp);
+	return *this;
 }
 
 /**
@@ -404,7 +485,7 @@ StdLogicVector & StdLogicVector::TruncateAfter(int _width) {
  * @return A StdLogicVector where some bits have been replaced by those of
  *   another StdLogicVector.
  */
-StdLogicVector & StdLogicVector::ReplaceBits(int _begin, StdLogicVector const &	_input) {
+StdLogicVector & StdLogicVector::ReplaceBits(int _begin, const StdLogicVector & _input) {
 	// Determine which bits have to be masked.
 	string leadingOnes = Ones(max(length_ - (_begin + _input.getLength()), 0));
 	string intermediateZeroes = Zeros(min(_input.getLength(), length_));
@@ -427,10 +508,27 @@ StdLogicVector & StdLogicVector::ReplaceBits(int _begin, StdLogicVector const &	
 	return this->Or(tmp);
 }
 
-//StdLogicVector StdLogicVector::PadRightZeroes(int _width) {
-//  this->ShiftLeft(_width - length);
-//  return this;
-//}
+/**
+ * @brief Appends zeroes on the right of the StdLogicVector in order to reach a
+ *   certain with of @p _width bits.
+ *
+ * @param _width The target width of the StdLogicVector.
+ * @return The StdLogicVector padded with @p _width - @a length_ zeros on the
+ *   right.
+ *
+ * Appends zeroes on the right of the StdLogicVector in order to reach a
+ * certain width of @p _bits bits. If @p _bits is smaller than the @a length_
+ * of the current StdLogicVector, @c this will be returned.
+ */
+StdLogicVector & StdLogicVector::PadRightZeros(int _width) {
+	if ( _width < length_ ) {
+		//TODO: Throw error.
+	}
+	this->ShiftLeft(_width - length_);
+	length_ = _width;
+
+	return *this;
+}
 
 
 // ****************************************************************************

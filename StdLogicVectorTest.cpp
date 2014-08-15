@@ -104,6 +104,101 @@ TEST_F(StdLogicVectorTestConstructors, ConstructorValueBaseLength) {
 	EXPECT_EQ(length_, dut_.getLength());
 };
 
+// Test StdLogicVector::StdLogicVector(_value, _size, _length) constructor.
+TEST_F(StdLogicVectorTestConstructors, ConstructorByteArray) {
+
+	// Test case 1: Value = 0
+	unsigned char value1 [8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+	length_ = 64;
+	dut_ 		= StdLogicVector(value1, 8, length_);
+
+	// Check that both the result as well as the size of the result are correct.
+	EXPECT_EQ(0, dut_.ToULL());
+	EXPECT_EQ(length_, dut_.getLength());
+
+	// Test case 2: Value = 0xABCD
+	unsigned char value2 [8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xAB, 0xCD};
+	length_ = 64;
+	dut_ 		= StdLogicVector(value2, 8, length_);
+
+	// Check that both the result as well as the size of the result are correct.
+	// ABCD(hex) = 43981(dec)
+	EXPECT_EQ(43981, dut_.ToULL());
+	EXPECT_EQ(length_, dut_.getLength());
+
+	// Test case 3: Value = 0x37BC2013ADE74CAA11204
+	unsigned char value3 [16] = {
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x7B, 0xC2,
+			0x01, 0x3A, 0xDE, 0x74, 0xCA, 0xA1, 0x12, 0x04};
+	length_ = 128;
+	dut_ 		= StdLogicVector(value3, 16, length_);
+
+	// Check that both the result as well as the size of the result are correct.
+	// 37BC2013ADE74CAA11204(hex) = 4211207293214889422688772(dec)
+	EXPECT_EQ("4211207293214889422688772", dut_.ToString(10,false));
+	EXPECT_EQ(length_, dut_.getLength());
+};
+
+
+// ****************************************************************************
+// Utility Function Tests
+// ****************************************************************************
+TEST(StdLogicVectorUtils, ToULL) {
+	StdLogicVector inp = StdLogicVector("1100110011001100", 2, 16);
+	EXPECT_EQ(52428, inp.ToULL());
+};
+
+// Test the StdLogicVector::ToString() function.
+TEST(StdLogicVectorUtils, ToString) {
+
+	StdLogicVector dut;
+	string expOutp, actOutp;
+
+	// Test case 1
+	dut 		= StdLogicVector(21, 8);
+	expOutp = "21";
+	actOutp	= dut.ToString();
+	EXPECT_EQ(expOutp, actOutp);
+
+	// Test case 2
+	dut 		= StdLogicVector(21, 8);
+	expOutp = "21";
+	actOutp	= dut.ToString(false);
+	EXPECT_EQ(expOutp, actOutp);
+
+	// Test case 3
+	dut 		= StdLogicVector(21, 8);
+	expOutp = "021";
+	actOutp	= dut.ToString(true);
+	EXPECT_EQ(expOutp, actOutp);
+
+	// Test case 4
+	dut 		= StdLogicVector(21, 8);
+	expOutp = "10101";
+	actOutp	= dut.ToString(2);
+	EXPECT_EQ(expOutp, actOutp);
+
+	// Test case 5
+	dut 		= StdLogicVector(21, 8);
+	expOutp = "00010101";
+	actOutp	= dut.ToString(2, true);
+	EXPECT_EQ(expOutp, actOutp);
+}
+
+// Test the StdLogicVector::ToString() function.
+TEST(StdLogicVectorUtils, ToByteArray) {
+
+	StdLogicVector dut;
+	unsigned char expOutp[4] = {
+			0xA0, 0xB1, 0xC2, 0xD3 };
+	unsigned char actOutp[4];
+
+	// Test case 1
+	dut 		= StdLogicVector("A0B1C2D3", 16, 32);
+	dut.ToByteArray(actOutp);
+	EXPECT_EQ(expOutp[0], actOutp[0]);
+}
+
 
 // ****************************************************************************
 // Comparison Operators Tests
@@ -111,7 +206,7 @@ TEST_F(StdLogicVectorTestConstructors, ConstructorValueBaseLength) {
 // Test the equality operator ("==").
 TEST(StdLogicVectorOperators, Equality) {
 
-	StdLogicVector inp1, inp2, expOutp, actOutp;
+	StdLogicVector inp1, inp2;
 
 	// Test case 1
 	inp1	= StdLogicVector();
@@ -435,24 +530,6 @@ TEST_F(StdLogicVectorTestBinaryOperators, XorRandomInputs) {
 	}
 }
 
-
-// ****************************************************************************
-// Testing other member functions.
-// ****************************************************************************
-
-// Test the StdLogicVector::ToString() function.
-TEST(StdLogicVectorUtils, ToString) {
-
-	StdLogicVector dut;
-	string expOutp, actOutp;
-
-	// Test case 1
-	dut  		= StdLogicVector(12, 8);
-	expOutp = "00001100";
-	actOutp	= dut.ToString(2,true);
-	EXPECT_EQ(expOutp, actOutp);
-}
-
 // Test the StdLogicVector::Truncate() function.
 TEST(StdLogicVectorOperations, TruncateBits) {
 
@@ -514,6 +591,88 @@ TEST(StdLogicVectorOperations, ReplaceBits) {
 	expOutp = StdLogicVector("01001010101", 2, 11);
 	actOutp	= dut.ReplaceBits(6, repl);
 	EXPECT_EQ(expOutp, actOutp);
+}
+
+// Test the StdLogicVector::PadRightZeros() function.
+TEST(StdLogicVectorOperations, PadRightZeros) {
+
+	StdLogicVector dut, expOutp, actOutp;
+
+	// Test case 1
+	dut  		= StdLogicVector("0101010101010101", 2, 16);
+	expOutp = StdLogicVector("010101010101010100000000", 2, 24);
+	actOutp	= dut.PadRightZeros(24);
+	EXPECT_EQ(expOutp, actOutp);
+
+	// Test case 2
+	dut  		= StdLogicVector("01010101010101010101", 2, 20);
+	expOutp = StdLogicVector("01010101010101010101000000", 2, 26);
+	actOutp	= dut.PadRightZeros(26);
+	EXPECT_EQ(expOutp, actOutp);
+}
+
+// ****************************************************************************
+// Testing arithmetic functions.
+// ****************************************************************************
+
+// Test StdLogicVector::Add() with some special inputs.
+TEST_F(StdLogicVectorTestBinaryOperators, AddSpecialInputs) {
+
+	StdLogicVector inp1, inp2, expOutp, actOutp;
+
+	// Test case 1
+	inp1 		= StdLogicVector("00000000", 2, 8);
+	inp2 		= StdLogicVector("00000000", 2, 8);
+	expOutp	= StdLogicVector("00000000", 2, 8);
+	actOutp	= inp1.Add(inp2);
+	EXPECT_EQ(expOutp, actOutp);
+
+	// Test case 2
+	inp1 		= StdLogicVector("00000001", 2, 8);
+	inp2 		= StdLogicVector("00000001", 2, 8);
+	expOutp	= StdLogicVector("00000010", 2, 8);
+	actOutp	= inp1.Add(inp2);
+	EXPECT_EQ(expOutp, actOutp);
+
+	// Test case 3
+	inp1 		= StdLogicVector("01010101", 2, 8);
+	inp2 		= StdLogicVector("01010101", 2, 8);
+	expOutp	= StdLogicVector("10101010", 2, 8);
+	actOutp	= inp1.Add(inp2);
+	EXPECT_EQ(expOutp, actOutp);
+
+	// Test case 4
+	inp1 		= StdLogicVector("10101010", 2, 8);
+	inp2 		= StdLogicVector("10101010", 2, 8);
+	expOutp	= StdLogicVector("01010100", 2, 8);
+	actOutp	= inp1.Add(inp2);
+	EXPECT_EQ(expOutp, actOutp);
+
+	// Test case 5
+	inp1 		=  StdLogicVector("10101010", 2, 8);
+	inp2 		=  StdLogicVector("10101010", 2, 8);
+	expOutp	= StdLogicVector("101010100", 2, 9);
+	actOutp	= inp1.Add(inp2, false); // Do not truncate the carry bit.
+	EXPECT_EQ(expOutp, actOutp);
+
+};
+
+// Test StdLogicVector::Add() with some random input values.
+TEST_F(StdLogicVectorTestBinaryOperators, AddRandomInputs) {
+	for (int i = 0; i < randOps_; ++i) {
+		// Use to "ints" and add them to a long.
+		inp1_ = rand();
+		inp2_ = rand();
+
+		expOutp_	= inp1_ + inp2_;
+		inp1Std_	= StdLogicVector(inp1_, 32);
+		inp2Std_	= StdLogicVector(inp2_, 32);
+		actOutp_	= inp1Std_.Add(inp2Std_);
+
+		// Check that both the result as well as the size of the result are correct.
+		EXPECT_EQ(expOutp_, actOutp_.ToULL());
+		EXPECT_EQ(32, inp1Std_.getLength());
+		}
 }
 
 

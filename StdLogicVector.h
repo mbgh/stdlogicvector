@@ -84,63 +84,60 @@ public:
   StdLogicVector(string _value, int _base, unsigned int _length);
   StdLogicVector(unsigned char *_value, int _size, unsigned int _length);
   virtual ~StdLogicVector();
+  StdLogicVector (const StdLogicVector & _other);
 
 
   // **************************************************************************
   // Getter/Setter functions
   // **************************************************************************
-  mpz_t const & getValue() const;
+  const mpz_t & getValue() const;
   int getLength() const;
 
+
+  // **************************************************************************
+  // Utility functions
+  // **************************************************************************
   unsigned long long ToULL();
+  unsigned long long ToULL() const;
+
   string ToString();
-  string ToString(bool _pad);
+	string ToString(bool _pad);
+	string ToString(int _base);
+  string ToString(int _base) const;
   string ToString(int _base, bool _pad);
   string ToString(int _base, bool _pad) const;
 
-  unsigned char * ToByteArray();
-
+  void ToByteArray(unsigned char _byteArray[]) const;
 
   // **************************************************************************
-  // Comparison operators
+  // Operator overloadings
   // **************************************************************************
   bool operator==(const StdLogicVector & _input) const;
   bool operator!=(const StdLogicVector & _input) const;
+  friend ostream & operator<<(ostream & _os, const StdLogicVector & _stdLogicVec);
 
 
   // **************************************************************************
   // Bitwise operations
   // **************************************************************************
-  int TestBit(int _index);
+  int TestBit(int _index) const;
 
   StdLogicVector & ShiftLeft(int _bits);
-  const StdLogicVector & ShiftLeft(int _bits) const;
-
   StdLogicVector & ShiftRight(int _bits);
-  const StdLogicVector & ShiftRight(int _bits) const;
-
-  StdLogicVector & And(StdLogicVector const & _operand);
-  const StdLogicVector & And(StdLogicVector const & _operand) const;
-
-  StdLogicVector & Or(StdLogicVector const & _operand);
-	const StdLogicVector & Or(StdLogicVector const & _operand) const;
-
-  StdLogicVector & Xor(StdLogicVector const & _operand);
-  const StdLogicVector & Xor(StdLogicVector const & _operand) const;
+  StdLogicVector & And(const StdLogicVector & _operand);
+  StdLogicVector & Or(const StdLogicVector & _operand);
+  StdLogicVector & Xor(const StdLogicVector & _operand);
 
   StdLogicVector & TruncateAfter(int _width);
-  const StdLogicVector & TruncateAfter(int _width) const;
-
-  StdLogicVector & ReplaceBits(int _begin, StdLogicVector const & _input);
-  const StdLogicVector & ReplaceBits(int _begin, StdLogicVector const & _input) const;
+  StdLogicVector & ReplaceBits(int _begin, const StdLogicVector & _input);
+  StdLogicVector & PadRightZeros(int _width);
 
 
   // **************************************************************************
   // Arithmetic operations
   // **************************************************************************
-  StdLogicVector & Add(StdLogicVector _operand);
-  const StdLogicVector & Add(StdLogicVector _operand) const;
-
+  StdLogicVector & Add(const StdLogicVector & _operand);
+  StdLogicVector & Add(const StdLogicVector & _operand, bool _truncateCarry);
 };
 
 #endif /* STDLOGICVECTOR_H_ */
