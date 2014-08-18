@@ -21,3 +21,6 @@
 *.app
 /Test
 /Debug
+
+# Doxygen-generated HTML documentation
+/doc/html
