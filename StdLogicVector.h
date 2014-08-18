@@ -5,7 +5,7 @@
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -23,7 +23,7 @@
  * @author Michael Muehlberghuber (mbgh,michmueh)
  * @date 03 April 2014
  * @brief An implementation of the std_logic_vector VHDL data type in C++
- * @version 0.1
+ * @version 1.0
  *
  * In order to generate bit-true C++ models of future VHDL implementations,
  * this file provides an equivalent C++ class of the std_logic_vector data type

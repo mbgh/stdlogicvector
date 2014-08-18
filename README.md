@@ -59,15 +59,16 @@ A documentation of the `StdLogicVector` class, created using
 
 A couple of questions, which came to my mind when setting up this readme file. 
 
-### Is the `StdLogicVector` class intended for any special purpose?
+#### Is the `StdLogicVector` class intended for any special purpose?
 
 No, I have written the `StdLogicVector` class to simplify working with
 arbitrary-precision integers **in general**, without having any special purpose
 in mind. Therefore, you will most-likely miss some operations when using it for
 your own needs.
 
-### Which is the "final" version of the `StdLogicVector` class?
+#### Which is the "final" version of the `StdLogicVector` class?
 
 There is nothing like a "final version" of this class. I am extending its
-functionality depending on my current needs, which is (and will most-likely
-never be) a "final" version.
+functionality depending on my personal needs (which again depend on the projects
+I am currently working on), which is why there exists (and will most-likely
+never exist) something like a "final" version.
