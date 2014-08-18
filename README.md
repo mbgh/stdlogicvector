@@ -46,7 +46,41 @@ b.ShiftRight(2).TruncateAfter(4).Xor(a);
 
 Usage
 -----
-TBD
+
+In order to clearly separate the `StdLogicVector` class from any other project I
+am using it in, I normally build a shared library from the sources and link my
+software models against that library. If you want to do something similar, you
+may stick to the following steps (tested on a [CentOS](http://www.centos.org/)
+6.4 installation):
+
+#### Prerequisites
+
+1. Make sure that you have available a [GMP](https://gmplib.org/) library
+against which you can link the `StdLogicVector` sources later on (although it
+should work with earlier versions as well, the version I usually use is
+*6.0.0a*).
+
+2. Make sure that you have [Google's C++ Testing
+Framework](http://code.google.com/p/googletest/) in order to run the unit tests,
+which come with the `StdLogicVector` class.
+
+#### Building the library
+
+1. [Download](https://github.com/mbgh/stdlogicvector/archive/master.zip) the
+latest version of the sources.
+
+2. Take a look at the provided Makefile and adapt it according to your needs (at
+least the paths to the [GMP](https://gmplib.org/) and the [Google
+Test](http://code.google.com/p/googletest/) files will have to be adapted).
+
+3. Finally, build the shared library, as well as the executable running the unit
+tests, and test the library.
+
+```
+make
+make test
+make run
+```
 
 Documentation
 -------------
