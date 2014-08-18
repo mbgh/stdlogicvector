@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>StdLogicVector: StdLogicVector</title>
+<title>StdLogicVector: Class List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -44,9 +44,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -66,6 +66,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li class="current"><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
+    </ul>
+  </div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -78,7 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('index.html','');});
+$(document).ready(function(){initNavTree('annotated.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -97,15 +103,15 @@ $(document).ready(function(){initNavTree('index.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title"><a class="el" href="classStdLogicVector.html" title="An implementation of the std_logic_vector VHDL data type in C++. ">StdLogicVector</a> </div>  </div>
+<div class="title">Class List</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>A C++ analogue to the VHDL <code>std_logic_vector</code> data type.</p>
-<h1><a class="anchor" id="secIntro"></a>
-Introduction</h1>
-<p>The <code>std_logic_vector</code> data type in VHDL offers arbitrary precision arithmetic for a couple of usefull operations. Especially when designing hardware architectures, where large number arithmetic (64bit and way beyond) is required (like it is in cryptographic applications), single or double precision software models usually suck as the per default provided precision is usually not enough. Although there exist several arbitrary precision libraries out there, most of them are too user-unfriendly from a hardware designer's perspective.</p>
-<p>Therefore, this class provides an attempt to simplify a hardware designer's life by offering a data type, which can be seen as an analogue to the VHDL <code>std_logic_vector</code> data type. All of the provided arithmetic is of arbitrary precision in order to allow logic operations on a bit level (AND, OR, XOR, etc.) as well as other functions, usefull during the development of sotware models for hardware architectures. Internally, the class uses the GMP library in order to realize the arbitrary precision arithmetic, which is why it can be seen as a "hardware-designer-friendly wrapper around the GMP". </p>
-</div></div><!-- contents -->
+<div class="textblock">Here are the classes, structs, unions and interfaces with brief descriptions:</div><div class="directory">
+<table class="directory">
+<tr id="row_0_" class="even"><td class="entry"><img src="ftv2lastnode.png" alt="\" width="16" height="22" /><img src="ftv2cl.png" alt="C" width="24" height="22" /><a class="el" href="classStdLogicVector.html" target="_self">StdLogicVector</a></td><td class="desc">An implementation of the std_logic_vector VHDL data type in C++ </td></tr>
+</table>
+</div><!-- directory -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>StdLogicVector: StdLogicVector</title>
+<title>StdLogicVector: Class Members - Functions</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -44,9 +44,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -66,6 +66,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow3" class="tabs2">
+    <ul class="tablist">
+      <li><a href="functions.html"><span>All</span></a></li>
+      <li class="current"><a href="functions_func.html"><span>Functions</span></a></li>
+      <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow4" class="tabs3">
+    <ul class="tablist">
+      <li><a href="#index_a"><span>a</span></a></li>
+      <li><a href="#index_g"><span>g</span></a></li>
+      <li><a href="#index_o"><span>o</span></a></li>
+      <li><a href="#index_p"><span>p</span></a></li>
+      <li><a href="#index_r"><span>r</span></a></li>
+      <li><a href="#index_s"><span>s</span></a></li>
+      <li><a href="#index_t"><span>t</span></a></li>
+      <li><a href="#index_x"><span>x</span></a></li>
+      <li class="current"><a href="#index_~"><span>~</span></a></li>
+    </ul>
+  </div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -78,7 +104,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('index.html','');});
+$(document).ready(function(){initNavTree('functions_func.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -95,17 +121,101 @@ $(document).ready(function(){initNavTree('index.html','');});
 </iframe>
 </div>
 
-<div class="header">
-  <div class="headertitle">
-<div class="title"><a class="el" href="classStdLogicVector.html" title="An implementation of the std_logic_vector VHDL data type in C++. ">StdLogicVector</a> </div>  </div>
-</div><!--header-->
 <div class="contents">
-<div class="textblock"><p>A C++ analogue to the VHDL <code>std_logic_vector</code> data type.</p>
-<h1><a class="anchor" id="secIntro"></a>
-Introduction</h1>
-<p>The <code>std_logic_vector</code> data type in VHDL offers arbitrary precision arithmetic for a couple of usefull operations. Especially when designing hardware architectures, where large number arithmetic (64bit and way beyond) is required (like it is in cryptographic applications), single or double precision software models usually suck as the per default provided precision is usually not enough. Although there exist several arbitrary precision libraries out there, most of them are too user-unfriendly from a hardware designer's perspective.</p>
-<p>Therefore, this class provides an attempt to simplify a hardware designer's life by offering a data type, which can be seen as an analogue to the VHDL <code>std_logic_vector</code> data type. All of the provided arithmetic is of arbitrary precision in order to allow logic operations on a bit level (AND, OR, XOR, etc.) as well as other functions, usefull during the development of sotware models for hardware architectures. Internally, the class uses the GMP library in order to realize the arbitrary precision arithmetic, which is why it can be seen as a "hardware-designer-friendly wrapper around the GMP". </p>
-</div></div><!-- contents -->
+&#160;
+
+<h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
+<li>Add()
+: <a class="el" href="classStdLogicVector.html#af7fc50fbcc9253748567d77f060da39b">StdLogicVector</a>
+</li>
+<li>And()
+: <a class="el" href="classStdLogicVector.html#aeac7747f720e31124e63b3d25b0e155a">StdLogicVector</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
+<li>getLength()
+: <a class="el" href="classStdLogicVector.html#a217cb04cc5b3ce568b95d4abe796d9ad">StdLogicVector</a>
+</li>
+<li>getValue()
+: <a class="el" href="classStdLogicVector.html#a5ffa97e5c99f361d9e8d9b8930bf2256">StdLogicVector</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
+<li>operator!=()
+: <a class="el" href="classStdLogicVector.html#ad754d3fa476b7a0313c734a088d5dd1f">StdLogicVector</a>
+</li>
+<li>operator==()
+: <a class="el" href="classStdLogicVector.html#aa19d93f601da39ed7a631baa5038a74b">StdLogicVector</a>
+</li>
+<li>Or()
+: <a class="el" href="classStdLogicVector.html#aa59f57674e0375ea2cc04133e1e77c36">StdLogicVector</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
+<li>PadRightZeros()
+: <a class="el" href="classStdLogicVector.html#a2ded8f633873d32d8359f82162c25fff">StdLogicVector</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
+<li>ReplaceBits()
+: <a class="el" href="classStdLogicVector.html#a6eb9864a253bf9c148c148d4c23d3ab7">StdLogicVector</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
+<li>ShiftLeft()
+: <a class="el" href="classStdLogicVector.html#a5c1023f1a0e9cb1022f2a0aef12fe4f0">StdLogicVector</a>
+</li>
+<li>ShiftRight()
+: <a class="el" href="classStdLogicVector.html#aa282252b7ba1bed1655312a55c9c7f01">StdLogicVector</a>
+</li>
+<li>StdLogicVector()
+: <a class="el" href="classStdLogicVector.html#ac0a8c570846d79b80454a407912080be">StdLogicVector</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
+<li>TestBit()
+: <a class="el" href="classStdLogicVector.html#a3e67fd45fcb9a9178d01cdeabb0345c2">StdLogicVector</a>
+</li>
+<li>ToByteArray()
+: <a class="el" href="classStdLogicVector.html#a6ef3a73ff63353c0b5d6e9d72f11aeaa">StdLogicVector</a>
+</li>
+<li>ToString()
+: <a class="el" href="classStdLogicVector.html#a1883b755700ea2b8b001ee1cf8759496">StdLogicVector</a>
+</li>
+<li>ToULL()
+: <a class="el" href="classStdLogicVector.html#add809df3c15b703ffcfd63fa2a5c7ae9">StdLogicVector</a>
+</li>
+<li>TruncateAfter()
+: <a class="el" href="classStdLogicVector.html#ab9cedaf3ccc15a46b1b926bcf9823bf1">StdLogicVector</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_x"></a>- x -</h3><ul>
+<li>Xor()
+: <a class="el" href="classStdLogicVector.html#a5a1580806b72ade734cef9ecb66fb1fc">StdLogicVector</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_~"></a>- ~ -</h3><ul>
+<li>~StdLogicVector()
+: <a class="el" href="classStdLogicVector.html#aa95b84e1a9e494d5f4dce594e1f775b6">StdLogicVector</a>
+</li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
