@@ -1,3 +1,4 @@
+################################################################################
 CXX       = g++
 NAME      = StdLogicVector
 RM        = rm -f
@@ -5,6 +6,7 @@ GMP_HDR   = /usr/ela/home/michmueh/software/gmp/build/include
 GMP_LIB   = /usr/ela/home/michmueh/software/gmp/build/lib
 GTEST_HDR = /usr/ela/home/michmueh/software/gtest/gtest-1.7.0/include
 GTEST_LIB = /usr/ela/home/michmueh/software/gtest/gtest-1.7.0/build
+################################################################################
 
 all: lib$(NAME).so
 
