@@ -54,7 +54,6 @@ using namespace std;
  * @brief The default constructor creates a new StdLogicVector of length
  *   zero and initializes its value to zero.
  */
-
 StdLogicVector::StdLogicVector() {
   mpz_init(value_);
   length_ = 0;
