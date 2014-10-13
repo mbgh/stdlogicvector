@@ -529,6 +529,18 @@ StdLogicVector & StdLogicVector::PadRightZeros(int _width) {
 	return *this;
 }
 
+/**
+ * @brief Reverses the bit order of the StdLogicVector.
+ *
+ * @return The original StdLogicVector with its value in reversed bit order.
+ */
+StdLogicVector & StdLogicVector::ReverseBitOrder() {
+	string strBinary = this->ToString(2, true);
+	string reverse = string ( strBinary.rbegin(), strBinary.rend() );
+	mpz_init_set_str(value_, reverse.c_str(), 2);
+	return *this;
+}
+
 
 // ****************************************************************************
 // Utility functions

@@ -599,16 +599,41 @@ TEST(StdLogicVectorOperations, PadRightZeros) {
 	StdLogicVector dut, expOutp, actOutp;
 
 	// Test case 1
-	dut  		= StdLogicVector("0101010101010101", 2, 16);
+	dut  	=         StdLogicVector("0101010101010101", 2, 16);
 	expOutp = StdLogicVector("010101010101010100000000", 2, 24);
 	actOutp	= dut.PadRightZeros(24);
 	EXPECT_EQ(expOutp, actOutp);
 
 	// Test case 2
-	dut  		= StdLogicVector("01010101010101010101", 2, 20);
+	dut  	=       StdLogicVector("01010101010101010101", 2, 20);
 	expOutp = StdLogicVector("01010101010101010101000000", 2, 26);
 	actOutp	= dut.PadRightZeros(26);
 	EXPECT_EQ(expOutp, actOutp);
+}
+
+// Test the StdLogicVector::ReverseBitOrder() function.
+TEST(StdLogicVectorOperations, ReverseBitOrder) {
+
+	StdLogicVector dut, expOutp, actOutp;
+
+	// Test case 1
+	dut  	= StdLogicVector("11110000", 2, 8);
+	expOutp = StdLogicVector("00001111", 2, 8);
+	actOutp	= dut.ReverseBitOrder();
+	EXPECT_EQ(expOutp, actOutp);
+
+	// Test case 2
+	dut  	= StdLogicVector("001100110011", 2, 12);
+	expOutp = StdLogicVector("110011001100", 2, 12);
+	actOutp	= dut.ReverseBitOrder();
+	EXPECT_EQ(expOutp, actOutp);
+
+	// Test case 3
+	dut  	= StdLogicVector("111000111000111000111000111000111000", 2, 36);
+	expOutp = StdLogicVector("000111000111000111000111000111000111", 2, 36);
+	actOutp	= dut.ReverseBitOrder();
+	EXPECT_EQ(expOutp, actOutp);
+
 }
 
 // ****************************************************************************

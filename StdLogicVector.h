@@ -131,6 +131,7 @@ public:
   StdLogicVector & TruncateAfter(int _width);
   StdLogicVector & ReplaceBits(int _begin, const StdLogicVector & _input);
   StdLogicVector & PadRightZeros(int _width);
+  StdLogicVector & ReverseBitOrder();
 
 
   // **************************************************************************
