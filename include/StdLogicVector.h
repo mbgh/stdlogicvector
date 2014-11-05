@@ -23,7 +23,7 @@
  * @author Michael Muehlberghuber (mbgh,michmueh)
  * @date 03 April 2014
  * @brief An implementation of the std_logic_vector VHDL data type in C++
- * @version 1.0
+ * @version 0.1
  *
  * In order to generate bit-true C++ models of future VHDL implementations,
  * this file provides an equivalent C++ class of the std_logic_vector data type

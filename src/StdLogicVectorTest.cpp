@@ -23,7 +23,7 @@
  * @author Michael Muehlberghuber (mbgh,michmueh)
  * @date 06 August 2014
  * @brief Unit tests for the StdLogicVector class
- * @version 1.0
+ * @version 0.1
  *
  * This file contains several unit tests for the StdLogicVector class based on
  * the Google C++ Testing Framework.
