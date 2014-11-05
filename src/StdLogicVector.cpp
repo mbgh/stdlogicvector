@@ -54,9 +54,8 @@ using namespace std;
  * @brief The default constructor creates a new StdLogicVector of length
  *   zero and initializes its value to zero.
  */
-StdLogicVector::StdLogicVector() {
+StdLogicVector::StdLogicVector() : length_(0), isDontCare_(false) {
   mpz_init(value_);
-  length_ = 0;
 }
 
 /**
@@ -64,7 +63,8 @@ StdLogicVector::StdLogicVector() {
  *   to zero.
  * @param _length The length of the StdLogicVector in bits.
  */
-StdLogicVector::StdLogicVector(unsigned int _length) {
+StdLogicVector::StdLogicVector(unsigned int _length) : isDontCare_(false)
+{
   mpz_init(value_);
   length_ = _length;
 }
@@ -77,7 +77,9 @@ StdLogicVector::StdLogicVector(unsigned int _length) {
  * @param _length The length of the StdLogicVector in bits.
  * @todo Check whether the bits are enough to represent the provided value.
  */
-StdLogicVector::StdLogicVector(unsigned long long _value, unsigned int _length) {
+StdLogicVector::StdLogicVector(unsigned long long _value, unsigned int _length) :
+		isDontCare_(false)
+{
   mpz_init(value_);
   // First version to initialize a GMP variable from unsigned long long.
   mpz_import(value_, 1, -1, sizeof(_value), 0, 0, &_value);
@@ -102,9 +104,25 @@ StdLogicVector::StdLogicVector(unsigned long long _value, unsigned int _length) 
  * @param _length The length of the StdLogicVector in bits.
  * @todo Check whether the bits are enough to represent the provided value.
  */
-StdLogicVector::StdLogicVector(string _value, int _base, unsigned int _length) {
+StdLogicVector::StdLogicVector(string _value, int _base, unsigned int _length) :
+		isDontCare_(false)
+{
   mpz_init_set_str(value_, _value.c_str(), _base);
   length_ = _length;
+}
+
+/**
+ * @copydoc StdLogicVector::StdLogicVector(string, int, unsigned int)
+ * @param _isDontCare Determines whether the value of the created StdLogicVector
+ *   should be marked as a don't care.
+ */
+StdLogicVector::StdLogicVector(string _value, int _base, unsigned int _length,
+		bool _isDontCare)
+{
+  mpz_init_set_str(value_, _value.c_str(), _base);
+
+  length_ 		= _length;
+  isDontCare_ = _isDontCare;
 }
 
 /**
@@ -119,16 +137,11 @@ StdLogicVector::StdLogicVector(string _value, int _base, unsigned int _length) {
  * @todo Check whether the bits are enough to represent the provided value.
  */
 StdLogicVector::StdLogicVector(unsigned char *_value, int _bytes,
-     unsigned int _length) {
+     unsigned int _length) : isDontCare_(false)
+{
 	mpz_init(value_);
   mpz_import(value_, _bytes, 1, sizeof(_value[0]), 1, 0, _value);
   length_ = _length;
-}
-
-/**
- * @brief Destructor
- */
-StdLogicVector::~StdLogicVector() {
 }
 
 /**
@@ -136,11 +149,18 @@ StdLogicVector::~StdLogicVector() {
  *   @a value_ of the StdLogicVector.
  * @param _other The StdLogicVector to be copied.
  */
-StdLogicVector::StdLogicVector (const StdLogicVector & _other) {
-	length_ = _other.getLength();
+StdLogicVector::StdLogicVector (const StdLogicVector & _other)
+{
+	length_ 		= _other.getLength();
+	isDontCare_	= _other.isDontCare();
 	mpz_init_set(value_, _other.getValue());
 }
 
+/**
+ * @brief Destructor
+ */
+StdLogicVector::~StdLogicVector() {
+}
 
 
 // ****************************************************************************
@@ -152,7 +172,7 @@ StdLogicVector::StdLogicVector (const StdLogicVector & _other) {
  * @return The value of the StdLogicVector as a GMP-specific data type.
  */
 const mpz_t & StdLogicVector::getValue() const {
-  return value_;
+	return value_;
 }
 
 /**
@@ -160,7 +180,17 @@ const mpz_t & StdLogicVector::getValue() const {
  * @return The length of the StdLogicVector.
  */
 int StdLogicVector::getLength() const {
-	 return length_;
+	return length_;
+}
+
+/**
+ * @brief Returns a boolean determining whether the value of the present
+ *   StdLogicVector is a don't care or not.
+ * @return Value determining whether the value of the present StdLogicVector is
+ *   a don't core or not.
+ */
+bool StdLogicVector::isDontCare() const {
+	return isDontCare_;
 }
 
 

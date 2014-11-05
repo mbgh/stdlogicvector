@@ -67,6 +67,7 @@ private:
 	// **************************************************************************
   mpz_t value_;
   int length_;
+  bool isDontCare_;
 
   // **************************************************************************
   // Utility functions
@@ -78,13 +79,21 @@ public:
   // **************************************************************************
   // Constructors/Destructors
   // **************************************************************************
+
+  // Constructors
   StdLogicVector();
   StdLogicVector(unsigned int _length);
   StdLogicVector(unsigned long long _value, unsigned int _length);
   StdLogicVector(string _value, int _base, unsigned int _length);
+  StdLogicVector(string _value, int _base, unsigned int _length, bool _isDontCare);
   StdLogicVector(unsigned char *_value, int _size, unsigned int _length);
-  virtual ~StdLogicVector();
+
+  // Copy-constructor
   StdLogicVector (const StdLogicVector & _other);
+
+  // Destructor
+  virtual ~StdLogicVector();
+
 
 
   // **************************************************************************
@@ -92,6 +101,7 @@ public:
   // **************************************************************************
   const mpz_t & getValue() const;
   int getLength() const;
+  bool isDontCare() const;
 
 
   // **************************************************************************
