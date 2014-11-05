@@ -1,30 +1,13 @@
 var NAVTREE =
 [
   [ "StdLogicVector", "index.html", [
-    [ "StdLogicVector", "md__usr_ela_home_michmueh_repos_git_stdlogicvector_README.html", null ],
-    [ "Todo List", "todo.html", null ],
-    [ "Classes", null, [
-      [ "Introduction", "index.html#secIntro", null ],
-      [ "Class List", "annotated.html", "annotated" ],
-      [ "Class Members", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Functions", "functions_func.html", null ],
-        [ "Related Functions", "functions_rela.html", null ]
-      ] ]
-    ] ],
-    [ "Files", null, [
-      [ "File List", "files.html", "files" ],
-      [ "File Members", "globals.html", [
-        [ "All", "globals.html", null ],
-        [ "Functions", "globals_func.html", null ]
-      ] ]
-    ] ]
+    [ "StdLogicVector", "md__home_michmueh_repos_git_stdlogicvector_README.html", null ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"StdLogicVectorTest_8cpp.html"
+"index.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
